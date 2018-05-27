@@ -1,0 +1,101 @@
+<%- include('partial/header') %>
+<div class="grid-x grid-padding-x" ng-controller="AppCtrl"   ng-init="init('<%= port %>')">
+<div class="large-12 medium-12 cell" >
+<p> <a href="/system" class="button"> << Home </a></p>
+<h5>Test Stub:</h5>
+
+<hr />
+
+
+<form method="post">
+<div class="grid-x grid-padding-x">
+<div class="medium-12 cell">
+<div class="primary callout">
+
+<div class="grid-x grid-padding-x">
+<div class="medium-24 cell">
+ Path <input type="text"  ng-model="path"  />
+ Method <select ng-model="method" >
+<option  >GET</option>
+<option >POST</option>
+<option  >PUT</option>
+<option >DELETE</option>
+<option >PATCH</option>
+</select>
+
+</div>
+</div>
+
+
+
+<div class="grid-x grid-padding-x">
+<div class="large-12 cell" id="requestQuery">
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<div class="grid-x grid-padding-x">
+<div class="large-12 cell">
+<label>requestContentType</label>
+<select ng-model="requestContentType" >
+<option></option>
+<option>application/json</option>
+<option>application/xml</option>
+</select>
+</div>
+</div>
+
+<div class="grid-x grid-padding-x">
+<div class="large-12 cell">
+<label>Request Body</label>
+<textarea  ng-model="requestBody" rows="5" ></textarea> 
+<a class="button success" ng-click="run()"> Run Scenario</a>
+</div>
+</div>
+
+</div>
+
+</div>
+
+<div class="medium-12 cell">
+<div class="primary callout">
+
+<h5> Response From Host:<b> {{path}}</b> </h5><hr/>
+
+<b>StatusCode:</b>
+<div id="outputStatus" class="success callout ">{{outputCode}}</div>
+<b>Response:</b>
+<div id="outputResult" class="success callout ">{{output}}</div>
+
+</div>
+
+
+</div>
+</div>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+<div id="bottom"></div>
+</div>
+      <script src="/controllers/test.js"></script>
+<%- include('partial/footer') %>
+

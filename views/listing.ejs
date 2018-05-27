@@ -1,0 +1,56 @@
+<%- include('partial/header') %>
+  <div class="grid-x grid-padding-x" ng-controller="AppCtrl"   ng-init="init('<%= strinfiedPage %>')" >
+        <div class="large-8 medium-8 cell">
+
+       <% if (pageData.back) { %>   <p> <a href="{{back}}" class="button">Back</a>  <% } %>
+         <p> 
+          <a  href="/{{pageType}}/{{hrefPath}}"  class="button" ng-if="pageType=='root'"> Add a New {{pageType}}  </a> 
+          <a  href="/{{pageType}}/{{hrefPath}}" class="button" ng-if="pageType=='stub'"> Add a New API   </a> 
+          <a  href="/{{pageType}}/{{hrefPath}}"  class="button" ng-if="pageType=='operation'"> Add a New {{pageType}}  </a>
+          <a  href="/{{pageType}}/{{hrefPath}}"  class="button" ng-if="pageType=='scenario'"> Add a New {{pageType}}  </a>
+
+           <a href="/download/{{hrefPath}}" class="button" ng-if="pageType=='root'"> Export All Stubs in all root </a> 
+           <a href="/download/{{hrefPath}}" class="button" ng-if="pageType=='stub'"> Export All Stubs in this root </a> 
+           <a href="/download/{{hrefPath}}" class="button" ng-if="pageType=='operation'"> Export Stub </a>
+
+          <a href="/run/{{hrefPath}}" class="success button  " ng-if="pageType=='root'">Run All Stubs in all root  </a>
+          <a href="/run/{{hrefPath}}" class="success button  " ng-if="pageType=='stub'">Run All Stubs in this root </a>
+          <a href="/run/{{hrefPath}}" class="success button  " ng-if="pageType=='operation'">Run  Stub  </a>
+         </p> <p ng-if="pageType=='scenario'">
+            <button ng-repeat="section in tabs" class="tab" id="{{section}}" ng-class="{active : isSelected(section)}" ng-click="displayTab(section)" > {{section}} </button>
+          </p>
+<table>
+  <thead>
+    <tr>
+      <th>Stub Name</th>
+   <th ng-if="pageType!='scenario'">Explore</th>
+      <th>Edit</th>
+<th ng-if="pageType=='stub'">Run</th>
+
+    </tr>
+  </thead>
+  <tbody>
+
+
+ <tr ng-repeat="(key, element) in list">
+      <td data-label="System Name" >{{element}}</td>
+ <td ng-if="pageType!='scenario'" data-label="View"><a href="/system/{{hrefPath}}{{key}}"> <i class="fi-page-search small" style="color: green"></i> Explore </a></td>
+      <td data-label="View"><a href="/{{pageType}}/{{hrefPath}}{{key}}"> <i class="fi-page-edit small" style="color: blue"></i> Edit </a></td>
+<td ng-if="pageType=='stub'" data-label="Delete"><a href="/Run/{{hrefPath}}{{key}}">  <i class="fi-power small" style="color: blue"></i> Run </a></td>
+     
+    </tr>
+
+  </tbody>
+</table>
+<pagination 
+  ng-model="currentPage"
+  total-items="todos.length"
+  max-size="maxSize"  
+  boundary-links="true">
+</pagination>      
+      </div>
+
+    </div>
+    <script src="/controllers/list.js"></script>
+<%- include('partial/footer') %>
+

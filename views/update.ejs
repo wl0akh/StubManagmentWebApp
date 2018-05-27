@@ -1,0 +1,211 @@
+<%- include('partial/header') %>
+<div class="grid-x grid-padding-x" ng-controller="AppCtrl"   ng-init="init('<%= strinfiedPage %>')">
+<div class="large-12 medium-12 cell" >
+<hr />
+ <% if (pageData.back) { %>   <p> <a href="{{back}}" class="button">Back</a>  <% } %>
+
+
+ <div class='success callout' ng-if="updatedMessage">successfuly updated {{pageType}}</div>
+ <div class='success callout' ng-if="createdMessage">successfuly created  {{pageType}}</div>
+ <div class='alert callout' ng-if="validationErrorMessage" onload="this.focus()">Sorry a validation error occured:-
+<p>Please check the filed highlighted in red color </p>
+<p><b>Note:-</b> 
+<br/> Please use Valid XML & JSON in Response Body and for xpath the current version does not allow <b style="font-size: xx-large;">.</b> and <b style="font-size: xx-large;">::</b>
+<br/>For the parameter value in path make sure operation has path set to have plural of parameter value for example: for customer with id 12345 you should use  the parameter name  as <b>customer</b> and then operation path should has customers i.e. example/anything/<b>customers</b>/12345</p>
+ </div>
+ <div class='alert callout' ng-if="systemErrorMessage">Sorry a system error has occured:-</div>
+
+<form method="post">
+
+  <div class="grid-x grid-padding-x">
+<div class="large-12 cell">
+<button ng-click="validateAndSubmit()"   class="button" style="float: right; margin-right: 1%;" >Add/Update</button>
+<button ng-click="delete()"   ng-if="rootId || stubId || operationId || scenarioId" class="button alert" style="float: right; margin-right: 1%;" >Delete</button>
+<button ng-click="copy()"   ng-if="rootId || stubId || operationId || scenarioId"  class="button warning " style="float: right; margin-right: 1%;" >Copy</button>
+</div>
+</div>
+<div class="grid-x grid-padding-x">
+<div class="medium-12 cell">
+<div class="primary callout">
+Name:<input  type="text" name="" ng-model="page.name"  mandatory  >
+
+
+
+<div class="grid-x grid-padding-x" ng-if="pageType=='stub'">
+<div class="medium-24 cell">
+ port <input type="text" placeholder="7790" name="port" ng-model="page.port"  mandatory  />
+ protocol  Method <select name="protocol"  ng-model="page.protocol"  mandatory >
+<option >http</option>
+<option >https</option>
+</select>
+</div>
+</div>
+
+
+<div class="grid-x grid-padding-x" ng-if="pageType=='root'">
+<div class="medium-24 cell">
+ Description <textarea  name="description" ng-model="page.description"  mandatory > </textarea>
+</div>
+</div>
+
+
+<div class="grid-x grid-padding-x" ng-if="pageType=='operation'">
+<div class="medium-24 cell">
+ Path <input type="text" placeholder="/RL.Api/[a-z]+/CustomerView" name="path" ng-model="page.request.path"  mandatory  />
+ Method <select name="method"  ng-model="page.request.method"  mandatory >
+<option >GET</option>
+<option >POST</option>
+<option >PUT</option>
+<option>DELETE</option>
+<option>PATCH</option>
+</select>
+
+</div>
+</div>
+
+
+
+
+
+
+
+
+<div class="grid-x grid-padding-x" ng-if="pageType=='scenario'">
+    <div class="large-12 cell">
+      Tag:<input  type="text" maxlength="8" name="" ng-model="page.tag"  mandatory  >
+      </div>
+<div class="large-12 cell">
+<label>requestContentType</label>
+<select id="requestContentType"  ng-model="page.request.headers['Content-Type']">
+<option></option>
+<option>application/json</option>
+<option>application/xml</option>
+</select>
+</div>
+</div>
+
+
+
+
+<div class="grid-x grid-padding-x" ng-if="pageType=='scenario'">
+<table>
+   <tr  ng-repeat="parameter in page.parameters">
+             <td> <input type="text" ng-model="parameter.key" placeholder="name or XPATH or JSONPath "  mandatory  ></td>
+             <td> <select  ng-model="parameter.in"  mandatory  >
+              <option value="query"> in Query </option>
+              <option value="form"> in Form Data </option>
+              <option value="headers"> in headers </option>
+              <option value="body"> in Body </option>
+              <option value="path"> in Path </option>
+             </select></td>
+              <td><select ng-model="parameter.comparator"  mandatory  >
+                 <option value="==">==</option>
+                 <option value="!=">!=</option>
+                 <option value="exist">Exist</option>
+                 <option value="!exist">Does Not Exist</option>
+                 <option value="empty">Empty</option>
+                 <option value="!empty">Is Not Empty</option>
+                 <option value="contains">Contains</option>
+                 <option value="!contains">Does Not Contains</option>
+                 <option value="RegEx">RegEx Matchs</option>
+                 <option value="!RegEx">RegEx Does Not Matchs</option>
+              </select></td>
+             <td> <input type="text" ng-model="parameter.val"    ></td>
+             <td> <button class="button alert"   ng-click="removeParameter($index)">-</button></td>
+              
+           </tr>
+           </table>
+
+<a class="button" style=" margin-left: 70%;" ng-click="addNewParameter()">Add  Parameter </a>
+</div>
+
+
+
+
+
+
+</div>
+
+</div>
+
+<div class="medium-12 cell" ng-if="pageType!='root'">
+<div class="primary callout">
+
+<h5> Response </h5><hr/>
+<div class="grid-x grid-padding-x">
+<div class="large-12 cell">
+<label>statusCode</label>
+<select name="statusCode" ng-model="page.response.statusCode"  mandatory  >
+<option value=200>200</option>
+<option>201</option>
+<option>202</option>
+<option>203</option>
+<option>204</option>
+<option>400</option>
+<option>401</option>
+<option>402</option>
+<option>403</option>
+<option>404</option>
+<option>500</option>
+<option>501</option>
+<option>502</option>
+<option>503</option>
+</select>
+</div>
+</div>
+
+<div class="grid-x grid-padding-x">
+<div class="large-12 cell">
+<label>responseContentType</label>
+{{page.response.headers['Content-Type']}}
+<select name="responseContentType" ng-model="page.response.headers['Content-Type']"   >
+<option>application/json</option>
+<option>application/xml</option>
+</select>
+</div>
+</div>
+
+<div class="grid-x grid-padding-x">
+<div class="large-12 cell">
+<label>Response Body</label>
+<textarea  name="responseBody" rows="5"  ng-model="$parent.page.response.body"  mandatory  ></textarea> 
+</div>
+</div>
+
+</div>
+
+
+</div>
+</div>
+
+
+<div class="grid-x grid-padding-x">
+<div class="large-12 cell">
+
+
+<button ng-click="validateAndSubmit()"   class="button" style="float: right; margin-right: 1%;" >Add/Update</button>
+<button ng-click="delete()"   ng-if="rootId || stubId || operationId || scenarioId" class="button alert" style="float: right; margin-right: 1%;" >Delete</button>
+<button ng-click="copy()"   ng-if="rootId || stubId || operationId || scenarioId" class="button warning " style="float: right; margin-right: 1%;" >Copy</button>
+</div>
+</div>
+
+</form>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+</div>
+      <script src="/controllers/update.js"></script>
+<%- include('partial/footer') %>
+
