@@ -28,7 +28,11 @@ And Run the following command to start the tool
 node index.js
 ```
 
-and the tool should be avalable on port 3000 http://localhost:3000
+and the tool should be avalable on port 3000 http://localhost:3000 as shown below 
+![image](https://user-images.githubusercontent.com/13693247/40586710-e906dc5c-61bd-11e8-9247-266e687c5d97.png)
+![image](https://user-images.githubusercontent.com/13693247/40586811-382decc0-61bf-11e8-876e-8d2e92cc0af6.png)
+![image](https://user-images.githubusercontent.com/13693247/40586854-b978964a-61bf-11e8-81fa-d45846962e52.png)
+
 
 ## Running the tests
 
@@ -41,7 +45,12 @@ run the following command
 ```
 node TestSystem.js
 ```
-go to http://localhost:8080 it will show the outcomes of the test.
+go to http://localhost:7978 it will show the outcomes of the test as shown below.
+
+![image](https://user-images.githubusercontent.com/13693247/40586791-f21d78ea-61be-11e8-97b7-67da8e26e839.png)
+
+
+
 
 ### To test MounteBank Injection test
 
@@ -50,7 +59,8 @@ run the following command
 ```
 TestInjection.js
 ```
-stem
+go to http://localhost:7979 it will show the outcomes of the test as shown below.
+![image](https://user-images.githubusercontent.com/13693247/40586750-5cc58396-61be-11e8-8164-544dafe8e9e7.png)
 
 ## Built With
 
